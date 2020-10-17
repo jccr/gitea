@@ -328,6 +328,11 @@ func RedirectDownload(ctx *context.Context) {
 
 // Download download an archive of a repository
 func Download(ctx *context.Context) {
+	if setting.Repository.DisableDownload {
+		ctx.Error(403)
+		return
+	}
+
 	var (
 		uri         = ctx.Params("*")
 		refName     string
